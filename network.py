@@ -1,5 +1,7 @@
 import queue
 import threading
+import re
+
 
 
 ## wrapper class for a queue of packets
@@ -136,6 +138,10 @@ class Router:
     def __init__(self, name, cost_D, max_queue_size):
         self.stop = False #for thread termination
         self.name = name
+        self.dictvals = []
+        self.dictkeys = []
+        self.cnt = 0
+
         #create a list of interfaces
         self.intf_L = [Interface(max_queue_size) for _ in range(len(cost_D))]
         #save neighbors and interfeces on which we connect to them
@@ -194,6 +200,7 @@ class Router:
         try:
             print('%s: sending routing update "%s" from interface %d' % (self, p, i))
             self.intf_L[i].put(p.to_byte_S(), 'out', True)
+
         except queue.Full:
             print('%s: packet "%s" lost on interface %d' % (self, p, i))
             pass
@@ -206,11 +213,23 @@ class Router:
         # possibly send out routing updates
         print('%s: Received routing update %s from interface %d' % (self, p, i))
 
-        
+
+
     ## Print routing table
     def print_routes(self):
         #TODO: print the routes as a two dimensional table
-        print(self.rt_tbl_D)
+        temp = []
+
+        self.dictkeys.append(list(self.cost_D.keys()))
+        self.dictvals.append(list(self.cost_D.values()))
+        if(self.cnt == 0):
+            print('Still Loading....')
+            self.cnt += 1
+        else:
+            print('--------------------')
+            print(' '.join('| {} | {}'.format(*i) for k, i in enumerate(self.dictkeys)))
+
+
 
                 
     ## thread target for the host to keep forwarding data

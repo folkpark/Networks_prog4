@@ -224,11 +224,11 @@ class Router:
         self.dictvals.append(list(self.cost_D.values()))
         if(self.cnt == 0):
             print('Still Loading....')
-            self.cnt += 1
+            self.cnt = 1
         else:
             print('--------------------')
             print(' '.join('| {} | {}'.format(*i) for k, i in enumerate(self.dictkeys)))
-
+            self.cnt += 1
 
 
                 

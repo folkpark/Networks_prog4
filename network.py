@@ -144,7 +144,7 @@ class Router:
         #TODO: set up the routing table for connected hosts
         self.rt_tbl_D = self.initTable()     # [destination, router, cost]
         print('%s: Initialized routing table' % self)
-        self.print_routes()
+        self.print_routes(False)
 
     def initTable(self):
         table = [['H1',self.name,'~'],['RA',self.name,'~'],
@@ -224,12 +224,23 @@ class Router:
 
 
     ## Print routing table
-    def print_routes(self):
+    def print_routes(self, both):
         # TODO: print the routes as a two dimensional table
-        print(self.rt_tbl_D)
+        if both==False:
+            print()
+            print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_')
+        if self.name=='RA':
+            print('RA | ',end='')
+        if self.name=='RB':
+            print('RB | ',end='')
+        for x in range(len(self.rt_tbl_D)):
+            cost = str(self.rt_tbl_D[x][2])
+            print(cost + '    ',end='')
+        print()
+        if both==False:
+            print()
 
 
-                
     ## thread target for the host to keep forwarding data
     def run(self):
         print (threading.currentThread().getName() + ': Starting')

@@ -227,7 +227,6 @@ class Router:
     def print_routes(self, both):
         # TODO: print the routes as a two dimensional table
         if both==False:
-            print()
             print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_')
         if self.name=='RA':
             print('RA | ',end='')

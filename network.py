@@ -226,15 +226,17 @@ class Router:
     ## Print routing table
     def print_routes(self, both):
         # TODO: print the routes as a two dimensional table
+
         if both==False:
-            print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_')
+            print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_|')
         if self.name=='RA':
-            print('RA | ',end='')
+            print('RA |  ',end='')
         if self.name=='RB':
-            print('RB | ',end='')
+            print('RB |  ',end='')
         for x in range(len(self.rt_tbl_D)):
+
             cost = str(self.rt_tbl_D[x][2])
-            print(cost + '    ',end='')
+            print(cost + ' |  ',end='')
         print()
         if both==False:
             print()

@@ -141,7 +141,6 @@ class Router:
         self.intf_L = [Interface(max_queue_size) for _ in range(len(cost_D))]
         #save neighbors and interfeces on which we connect to them
         self.cost_D = cost_D    # [neighbor, interface, cost]
-        #TODO: set up the routing table for connected hosts
         self.rt_tbl_D = self.initTable()     # [destination, router, cost]
         print('%s: Initialized routing table' % self)
         self.print_routes(False)
@@ -204,7 +203,13 @@ class Router:
     def send_routes(self, i):
         # TODO: Send out a routing table update
         #create a routing table update packet
-        p = NetworkPacket(0, 'control', 'DUMMY_ROUTING_TABLE')
+        tempTable = ''
+        for x in self.rt_tbl_D:
+            x = str(x)
+            tempString = ''.join(x)
+            tempTable = tempTable + tempString
+        print ('' + tempTable)
+        p = NetworkPacket(0, 'control', tempTable)
         try:
             print('%s: sending routing update "%s" from interface %d' % (self, p, i))
             self.intf_L[i].put(p.to_byte_S(), 'out', True)
@@ -225,8 +230,6 @@ class Router:
 
     ## Print routing table
     def print_routes(self, both):
-        # TODO: print the routes as a two dimensional table
-
         if both==False:
             print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_|')
         if self.name=='RA':
@@ -234,7 +237,6 @@ class Router:
         if self.name=='RB':
             print('RB |  ',end='')
         for x in range(len(self.rt_tbl_D)):
-
             cost = str(self.rt_tbl_D[x][2])
             print(cost + ' |  ',end='')
         print()

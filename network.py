@@ -143,10 +143,23 @@ class Router:
         #save neighbors and interfeces on which we connect to them
         self.cost_D = cost_D    # [neighbor, interface, cost]
         #TODO: set up the routing table for connected hosts
-        self.rt_tbl_D = []      # [destination, router, cost]
+        self.rt_tbl_D = self.initTable()     # [destination, router, cost]
         print('%s: Initialized routing table' % self)
         self.print_routes()
 
+    def initTable(self):
+        table = [['H1',self.name,'~'],['RA',self.name,'~'],
+                 ['RB',self.name,'~'],['H2',self.name,'~']]
+        for x in range(len(self.cost_D)):
+            if self.cost_D[x][0] == 'H1':
+                table[0][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RA':
+                table[1][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RB':
+                table[2][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'H2':
+                table[3][2] = self.cost_D[x][2]
+        return table
 
     ## called when printing the object
     def __str__(self):

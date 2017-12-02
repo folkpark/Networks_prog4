@@ -138,16 +138,12 @@ class Router:
     def __init__(self, name, cost_D, max_queue_size):
         self.stop = False #for thread termination
         self.name = name
-        self.dictvals = []
-        self.dictkeys = []
-        self.cnt = 0
-
         #create a list of interfaces
         self.intf_L = [Interface(max_queue_size) for _ in range(len(cost_D))]
         #save neighbors and interfeces on which we connect to them
-        self.cost_D = cost_D    # {neighbor: {interface: cost}}
+        self.cost_D = cost_D    # [neighbor, interface, cost]
         #TODO: set up the routing table for connected hosts
-        self.rt_tbl_D = {}      # {destination: {router: cost}}
+        self.rt_tbl_D = []      # [destination, router, cost]
         print('%s: Initialized routing table' % self)
         self.print_routes()
 
@@ -217,18 +213,8 @@ class Router:
 
     ## Print routing table
     def print_routes(self):
-        #TODO: print the routes as a two dimensional table
-        temp = []
-
-        self.dictkeys.append(list(self.cost_D.keys()))
-        self.dictvals.append(list(self.cost_D.values()))
-        if(self.cnt == 0):
-            print('Still Loading....')
-            self.cnt = 1
-        else:
-            print('--------------------')
-            print(' '.join('| {} | {}'.format(*i) for k, i in enumerate(self.dictkeys)))
-            self.cnt += 1
+        # TODO: print the routes as a two dimensional table
+        print()
 
 
                 

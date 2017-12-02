@@ -18,13 +18,15 @@ if __name__ == '__main__':
     object_L.append(host_2)
     
     #create routers and cost tables for reaching neighbors
-    cost_D = {'H1': {0: 1}, 'RB': {1: 1}} # {neighbor: {interface: cost}}
+    #cost_D = {'H1': {0: 1}, 'RB': {1: 1}} # {neighbor: {interface: cost}}
+    cost_D = [['H1',0,1],['RB',1,1]]     # [neighbor, interface, cost]
     router_a = network.Router(name='RA', 
                               cost_D = cost_D,
                               max_queue_size=router_queue_size)
     object_L.append(router_a)
 
-    cost_D = {'H2': {1: 3}, 'RA': {0: 1}} # {neighbor: {interface: cost}}
+    #cost_D = {'H2': {1: 3}, 'RA': {0: 1}} # {neighbor: {interface: cost}}
+    cost_D = [['H2',1,3],['RA',0,1]]     # [neighbor, interface, cost]
     router_b = network.Router(name='RB', 
                               cost_D = cost_D,
                               max_queue_size=router_queue_size)

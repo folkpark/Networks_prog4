@@ -148,6 +148,8 @@ class Router:
     def initTable(self):
         table = [['H1',self.name,'~'],['RA',self.name,'~'],
                  ['RB',self.name,'~'],['H2',self.name,'~']]
+
+
         for x in range(len(self.cost_D)):
             if self.cost_D[x][0] == 'H1':
                 table[0][2] = self.cost_D[x][2]
@@ -157,6 +159,12 @@ class Router:
                 table[2][2] = self.cost_D[x][2]
             elif self.cost_D[x][0] == 'H2':
                 table[3][2] = self.cost_D[x][2]
+
+        if table[1][2] == '~':
+            table[1][2] = 0
+        if table[2][2] == '~':
+            table[2][2] = 0
+
         return table
 
     ## called when printing the object
@@ -224,6 +232,9 @@ class Router:
     def update_routes(self, p, i):
         #TODO: add logic to update the routing tables and
         # possibly send out routing updates
+        temp_tbl = []
+
+
         print('%s: Received routing update %s from interface %d' % (self, p, i))
 
 

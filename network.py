@@ -188,12 +188,30 @@ class Router:
     #  @param i Incoming interface number for packet p
     def forward_packet(self, p, i):
         try:
-            # TODO: Here you will need to implement a lookup into the 
-            # forwarding table to find the appropriate outgoing interface
-            # for now we assume the outgoing interface is 1
-            self.intf_L[1].put(p.to_byte_S(), 'out', True)
+            sentFlag = False
+            # first check to see if the dst is a neighbor
+            for x in self.cost_D:
+                if p.dst == x[0]:  # If the destination of the packet is a neighbor
+                    out_intf = x[1]
+                    self.intf_L[out_intf].put(p.to_byte_S(), 'out', True)
+                    sentFlag = True
+                    break
+
+            if sentFlag == False:
+                costs = []
+                for y in self.cost_D:  # find the min cost
+                    costs.append(y[2])  # build of list of costs
+                minCost = min(costs)  # get the min cost and assign to minCost
+                for z in self.cost_D:  # find the cost_D entry with minCost
+                    if z[2] == minCost:
+                        out_intf = z[1]
+                        self.intf_L[out_intf].put(p.to_byte_S(), 'out', True)
+                        sentFlag = True
+                        break
+
+            # self.intf_L[1].put(p.to_byte_S(), 'out', True)
             print('%s: forwarding packet "%s" from interface %d to %d' % \
-                (self, p, i, 1))
+                  (self, p, i, 1))
         except queue.Full:
             print('%s: packet "%s" lost on interface %d' % (self, p, i))
             pass
@@ -202,8 +220,6 @@ class Router:
     ## send out route update
     # @param i Interface number on which to send out a routing update
     def send_routes(self, i):
-        # TODO: Send out a routing table update
-        #create a routing table update packet
         tempTable = ''
         for x in self.rt_tbl_D:
             x = str(x)

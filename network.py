@@ -145,6 +145,7 @@ class Router:
         self.rt_tbl_D = self.initTable()     # [destination, router, cost]
         print('%s: Initialized routing table' % self)
         self.print_routes(False)
+        self.cnt = 0
 
     def initTable(self):
         table = [['H1',self.name,'~'],['RA',self.name,'~'],
@@ -283,10 +284,8 @@ class Router:
 
         new_p = ''.join(str(x) for x in temp_l)
         p = packet_beginning.group(0) + new_p
-
-        print('%s: Received routing update %s from interface %d' % (self, p, i))
         self.send_routes(0)
-
+        print('%s: Received routing update %s from interface %d' % (self, p, i))
 
 
     ## Print routing table

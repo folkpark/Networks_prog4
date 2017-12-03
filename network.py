@@ -1,6 +1,7 @@
 import queue
 import threading
-
+import re
+from itertools import groupby, combinations
 
 
 ## wrapper class for a queue of packets
@@ -224,8 +225,16 @@ class Router:
     def update_routes(self, p, i):
         #TODO: add logic to update the routing tables and
         # possibly send out routing updates
-        temp_tbl = []
+        table = []
+        temp = re.sub(r"^\d{6}|[\]\,\'\[]", ' ', str(p))
+        new_list = re.split(r'\s+',temp)
+        del(new_list[0])
+        t = len(new_list)
+        del (new_list[t-1])
 
+        temp_l = [new_list[n:n+3] for n in range(0, len(new_list), 3)]
+
+        print(temp_l)
 
         print('%s: Received routing update %s from interface %d' % (self, p, i))
 

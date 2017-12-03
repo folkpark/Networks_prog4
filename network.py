@@ -147,17 +147,25 @@ class Router:
         self.print_routes(False)
 
     def initTable(self):
-        table = [['H1',self.name,'~'],['RA',self.name,'~'],
-                 ['RB',self.name,'~'],['H2',self.name,'~']]
+        table = [['H1',self.name,'~'],['H2',self.name,'~'],
+                 ['RA',self.name,'~'],['RB',self.name,'~'],
+                 ['RC', self.name, '~'],['RD',self.name,'~'],
+                 ['H3', self.name, '~']]
         for x in range(len(self.cost_D)):
             if self.cost_D[x][0] == 'H1':
                 table[0][2] = self.cost_D[x][2]
-            elif self.cost_D[x][0] == 'RA':
-                table[1][2] = self.cost_D[x][2]
-            elif self.cost_D[x][0] == 'RB':
-                table[2][2] = self.cost_D[x][2]
             elif self.cost_D[x][0] == 'H2':
+                table[1][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RA':
+                table[2][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RB':
                 table[3][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RC':
+                table[4][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'RD':
+                table[5][2] = self.cost_D[x][2]
+            elif self.cost_D[x][0] == 'H3':
+                table[6][2] = self.cost_D[x][2]
         return table
 
     ## called when printing the object
@@ -308,11 +316,16 @@ class Router:
     ## Print routing table
     def print_routes(self, both):
         if both==False:
-            print('___|_H1_|' + '_RA_|' + '_RB_|' + '_H2_|')
+            print('___|_H1_|' + '_H2_|' + '_RA_|' + '_RB_|' +
+                  '_RC_|' + '_RD_|' + '_H3_|')
         if self.name=='RA':
             print('RA |  ',end='')
         if self.name=='RB':
             print('RB |  ',end='')
+        if self.name=='RC':
+            print('RC |  ', end='')
+        if self.name=='RD':
+            print('RD |  ', end='')
         for x in range(len(self.rt_tbl_D)):
             cost = str(self.rt_tbl_D[x][2])
             print(cost + ' |  ',end='')

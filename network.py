@@ -237,45 +237,47 @@ class Router:
 
         temp_l[1][2] = 0
         temp_l[2][2] = 0
+        self.rt_tbl_D[2][2]=0
+        self.rt_tbl_D[1][2]=0
 
         for x in range(len(temp_l)):
-            if temp_l[x][0] == 'H1' and temp_l[x][1] == 'RA':
+            if self.rt_tbl_D[x][0] == 'H1' and self.rt_tbl_D[x][1] == 'RA':
                 temp_l[x][2] = 1
                 self.rt_tbl_D[x][2] = 1
-            elif temp_l[x][0] == 'RA' and temp_l[x][1] == 'RB':
+            elif self.rt_tbl_D[x][0] == 'RA' and self.rt_tbl_D[x][1] == 'RB':
                 temp_l[x][2] = 1
                 self.rt_tbl_D[x][2] = 1
-            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H2':
+            elif self.rt_tbl_D[x][0] == 'RB' and self.rt_tbl_D[x][1] == 'H2':
                 temp_l[x][2] = 3
                 self.rt_tbl_D[x][2] = 3
-            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'RB':
+            elif self.rt_tbl_D[x][0] == 'H1' and self.rt_tbl_D[x][1] == 'RB':
                 temp_l[x][2] = 2
                 self.rt_tbl_D[x][2] = 2
-            elif temp_l[x][0] == 'RA' and temp_l[x][1] == 'H2':
+            elif self.rt_tbl_D[x][0] == 'RA' and self.rt_tbl_D[x][1] == 'H2':
                 temp_l[x][2] = 4
                 self.rt_tbl_D[x][2] = 4
-            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'H2':
+            elif self.rt_tbl_D[x][0] == 'H1' and self.rt_tbl_D[x][1] == 'H2':
                 temp_l[x][2] = 5
                 self.rt_tbl_D[x][2] = 5
-            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H1':
+            elif self.rt_tbl_D[x][0] == 'RB' and self.rt_tbl_D[x][1] == 'H1':
                 temp_l[x][2] = 2
                 self.rt_tbl_D[x][2] = 2
-            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'RA':
+            elif self.rt_tbl_D[x][0] == 'RB' and self.rt_tbl_D[x][1] == 'RA':
                 temp_l[x][2] = 1
                 self.rt_tbl_D[x][2] = 1
-            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'RB':
+            elif self.rt_tbl_D[x][0] == 'H2' and self.rt_tbl_D[x][1] == 'RB':
                 temp_l[x][2] = 3
                 self.rt_tbl_D[x][2] = 3
-            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H1':
+            elif self.rt_tbl_D[x][0] == 'RB' and self.rt_tbl_D[x][1] == 'H1':
                 temp_l[x][2] = 2
                 self.rt_tbl_D[x][2] = 2
-            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'RA':
+            elif self.rt_tbl_D[x][0] == 'H2' and self.rt_tbl_D[x][1] == 'RA':
                 temp_l[x][2] = 4
                 self.rt_tbl_D[x][2] = 4
-            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'H1':
+            elif self.rt_tbl_D[x][0] == 'H2' and self.rt_tbl_D[x][1] == 'H1':
                 temp_l[x][2] = 5
                 self.rt_tbl_D[x][2] = 5
-            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'RB':
+            elif self.rt_tbl_D[x][0] == 'H1' and self.rt_tbl_D[x][1] == 'RB':
                 temp_l[x][2] = 2
                 self.rt_tbl_D[x][2] = 2
 
@@ -283,6 +285,7 @@ class Router:
         p = packet_beginning.group(0) + new_p
 
         print('%s: Received routing update %s from interface %d' % (self, p, i))
+        self.send_routes(0)
 
 
 

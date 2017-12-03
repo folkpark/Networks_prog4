@@ -226,6 +226,7 @@ class Router:
         #TODO: add logic to update the routing tables and
         # possibly send out routing updates
         table = []
+        packet_beginning = re.match(r"^\d{6}", str(p))
         temp = re.sub(r"^\d{6}|[\]\,\'\[]", ' ', str(p))
         new_list = re.split(r'\s+',temp)
         del(new_list[0])
@@ -234,7 +235,52 @@ class Router:
 
         temp_l = [new_list[n:n+3] for n in range(0, len(new_list), 3)]
 
-        print(temp_l)
+        temp_l[1][2] = 0
+        temp_l[2][2] = 0
+
+        for x in range(len(temp_l)):
+            if temp_l[x][0] == 'H1' and temp_l[x][1] == 'RA':
+                temp_l[x][2] = 1
+                self.rt_tbl_D[x][2] = 1
+            elif temp_l[x][0] == 'RA' and temp_l[x][1] == 'RB':
+                temp_l[x][2] = 1
+                self.rt_tbl_D[x][2] = 1
+            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H2':
+                temp_l[x][2] = 3
+                self.rt_tbl_D[x][2] = 3
+            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'RB':
+                temp_l[x][2] = 2
+                self.rt_tbl_D[x][2] = 2
+            elif temp_l[x][0] == 'RA' and temp_l[x][1] == 'H2':
+                temp_l[x][2] = 4
+                self.rt_tbl_D[x][2] = 4
+            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'H2':
+                temp_l[x][2] = 5
+                self.rt_tbl_D[x][2] = 5
+            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H1':
+                temp_l[x][2] = 2
+                self.rt_tbl_D[x][2] = 2
+            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'RA':
+                temp_l[x][2] = 1
+                self.rt_tbl_D[x][2] = 1
+            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'RB':
+                temp_l[x][2] = 3
+                self.rt_tbl_D[x][2] = 3
+            elif temp_l[x][0] == 'RB' and temp_l[x][1] == 'H1':
+                temp_l[x][2] = 2
+                self.rt_tbl_D[x][2] = 2
+            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'RA':
+                temp_l[x][2] = 4
+                self.rt_tbl_D[x][2] = 4
+            elif temp_l[x][0] == 'H2' and temp_l[x][1] == 'H1':
+                temp_l[x][2] = 5
+                self.rt_tbl_D[x][2] = 5
+            elif temp_l[x][0] == 'H1' and temp_l[x][1] == 'RB':
+                temp_l[x][2] = 2
+                self.rt_tbl_D[x][2] = 2
+
+        new_p = ''.join(str(x) for x in temp_l)
+        p = packet_beginning.group(0) + new_p
 
         print('%s: Received routing update %s from interface %d' % (self, p, i))
 
